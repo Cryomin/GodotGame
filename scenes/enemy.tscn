@@ -1,0 +1,70 @@
+[gd_scene load_steps=8 format=3 uid="uid://c5rphfwos823a"]
+
+[ext_resource type="Script" path="res://enemy.gd" id="1_xejnr"]
+[ext_resource type="Texture2D" uid="uid://decrek16qxuy0" path="res://Tilemaps/Playersprites/adventurer_sprite_sheet_v1.1.png" id="1_xrrw1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s38e1"]
+
+[sub_resource type="Animation" id="Animation_8buhq"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2i(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_luui7"]
+resource_name = "death"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.33, 0.66),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Vector2i(3, 7), Vector2i(4, 7), Vector2i(5, 7)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ot0a0"]
+_data = {
+"RESET": SubResource("Animation_8buhq"),
+"death": SubResource("Animation_luui7")
+}
+
+[sub_resource type="Curve2D" id="Curve2D_m07jr"]
+
+[node name="Node2D" type="Area2D" groups=["Bullet-Enemy"]]
+scale = Vector2(5, 5)
+script = ExtResource("1_xejnr")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0.4, -5)
+texture = ExtResource("1_xrrw1")
+hframes = 13
+vframes = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_s38e1")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_ot0a0")
+}
+
+[node name="DeathTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Path2D" type="Path2D" parent="."]
+curve = SubResource("Curve2D_m07jr")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

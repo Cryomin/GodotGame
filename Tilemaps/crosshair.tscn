@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://eo8pykn3dxeo"]
+
+[ext_resource type="Texture2D" uid="uid://xgsau68tvxvg" path="res://Sprites/Crosshair.png" id="1_se8dl"]
+[ext_resource type="Script" path="res://Tilemaps/crosshair.gd" id="2_lcnd1"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("2_lcnd1")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_se8dl")

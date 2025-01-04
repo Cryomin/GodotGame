@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cfdptbqr0j7ly"]
+
+[ext_resource type="Script" path="res://shake_camera.gd" id="1_bji6s"]
+
+[node name="ShakeCamera" type="Camera2D"]
+script = ExtResource("1_bji6s")
+max_offset = Vector2(10, 7)
+max_roll = 0.01
