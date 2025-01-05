@@ -7,7 +7,7 @@ var dir = "left"
 var input_direction
 var look_direction
 var look_direction_deg
-
+signal healthsig(health)
 @export var speed = 300
 
 func get_input():
@@ -28,6 +28,7 @@ func _process(_delta):
 	if Input.is_action_just_pressed("interact"):
 		take_dmg(2)
 		
+		
 	look_direction = get_global_mouse_position() - global_position
 	look_direction_deg = rad_to_deg(look_direction.angle())
 	if look_direction_deg < 90 and look_direction_deg > -90:
@@ -47,6 +48,7 @@ func take_dmg(dmg):
 		return
 	elif $InvincFrames.paused:
 		health -= dmg
+
 		$InvincFrames.start()
 	
 	

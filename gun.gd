@@ -27,7 +27,6 @@ func shoot() -> void:
 		get_tree().current_scene.add_child(bullet)
 		bullet.global_position = muzzle.global_position
 		bullet.rotation = muzzle.global_rotation
-		$CPUParticles2D.emitting = true
 	else:
 		print("Failed to instantiate bullet!")
 	can_shoot = false

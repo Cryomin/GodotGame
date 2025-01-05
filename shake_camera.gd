@@ -8,7 +8,6 @@ extends Camera2D
 var trauma : float = 0.0
 var trauma_power : int = 2
 
-
 func _ready() -> void:
 	randomize()
 

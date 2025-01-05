@@ -1,0 +1,99 @@
+[gd_scene load_steps=9 format=3 uid="uid://bk2j7vady61m7"]
+
+[ext_resource type="Script" path="res://exit.gd" id="1_ldf2s"]
+[ext_resource type="PackedScene" uid="uid://cbshotclgtvyd" path="res://scenes/player.tscn" id="1_sibs4"]
+[ext_resource type="PackedScene" uid="uid://cfdptbqr0j7ly" path="res://shake_camera.tscn" id="2_37jcl"]
+[ext_resource type="Script" path="res://yes.gd" id="4_ra8wd"]
+[ext_resource type="Script" path="res://no.gd" id="5_mvewt"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nucbi"]
+bg_color = Color(0.0674377, 0.0674377, 0.0674377, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8120j"]
+size = Vector2(324, 168)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_47pat"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_ldf2s")
+
+[node name="ShakeCamera" parent="." instance=ExtResource("2_37jcl")]
+
+[node name="Player" parent="." instance=ExtResource("1_sibs4")]
+position = Vector2(1, 356)
+
+[node name="ShakeCamera" parent="Player" index="7"]
+visible = false
+
+[node name="Panel" type="Panel" parent="."]
+z_index = -5
+offset_left = -3094.0
+offset_top = -1471.0
+offset_right = 3311.0
+offset_bottom = 2388.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_nucbi")
+
+[node name="Area2D" type="Area2D" parent="."]
+script = ExtResource("4_ra8wd")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-409, -197)
+shape = SubResource("RectangleShape2D_8120j")
+
+[node name="Panel" type="Panel" parent="Area2D"]
+z_index = -1
+offset_left = -572.0
+offset_top = -283.0
+offset_right = -245.0
+offset_bottom = -112.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_47pat")
+
+[node name="Label" type="Label" parent="Area2D"]
+offset_left = -572.0
+offset_top = -281.0
+offset_right = -248.0
+offset_bottom = -115.0
+theme_override_font_sizes/font_size = 75
+text = "YES"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Area2D2" type="Area2D" parent="."]
+script = ExtResource("5_mvewt")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
+position = Vector2(427, -194)
+shape = SubResource("RectangleShape2D_8120j")
+
+[node name="Panel" type="Panel" parent="Area2D2"]
+z_index = -1
+offset_left = 264.0
+offset_top = -280.0
+offset_right = 591.0
+offset_bottom = -109.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_47pat")
+
+[node name="Label" type="Label" parent="Area2D2"]
+offset_left = 264.0
+offset_top = -278.0
+offset_right = 588.0
+offset_bottom = -112.0
+theme_override_font_sizes/font_size = 75
+text = "NO"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label" type="Label" parent="."]
+offset_left = -325.0
+offset_top = -648.0
+offset_right = 326.0
+offset_bottom = -425.0
+theme_override_font_sizes/font_size = 80
+text = "Are you sure you 
+want to quit?"
+horizontal_alignment = 1
+
+[connection signal="area_entered" from="Area2D" to="Area2D" method="_on_area_entered"]
+[connection signal="area_entered" from="Area2D2" to="Area2D2" method="_on_area_entered"]
+
+[editable path="Player"]
