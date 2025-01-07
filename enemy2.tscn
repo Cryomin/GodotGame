@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://c5rphfwos823a"]
+[gd_scene load_steps=9 format=3 uid="uid://ci0drvjfmtpsx"]
 
-[ext_resource type="Script" path="res://enemy.gd" id="1_xejnr"]
-[ext_resource type="Texture2D" uid="uid://decrek16qxuy0" path="res://Tilemaps/Playersprites/adventurer_sprite_sheet_v1.1.png" id="1_xrrw1"]
+[ext_resource type="Script" path="res://enemy.gd" id="1_th2b8"]
+[ext_resource type="Texture2D" uid="uid://decrek16qxuy0" path="res://Tilemaps/Playersprites/adventurer_sprite_sheet_v1.1.png" id="2_x5gyb"]
+[ext_resource type="Texture2D" uid="uid://bh8bmw4hyjh67" path="res://Sprites/health bar enemy.png" id="3_uhsnb"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_s38e1"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_vado0"]
 
 [sub_resource type="Animation" id="Animation_8buhq"]
 length = 0.001
@@ -43,18 +44,18 @@ _data = {
 
 [sub_resource type="Curve2D" id="Curve2D_m07jr"]
 
-[node name="Node2D" type="Area2D" groups=["Bullet-Enemy"]]
+[node name="EnemyBody" type="CharacterBody2D" groups=["Bullet-Enemy"]]
 scale = Vector2(5, 5)
-script = ExtResource("1_xejnr")
+script = ExtResource("1_th2b8")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0.4, -5)
-texture = ExtResource("1_xrrw1")
+position = Vector2(2, -5)
+texture = ExtResource("2_x5gyb")
 hframes = 13
 vframes = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_s38e1")
+shape = SubResource("CircleShape2D_vado0")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -67,4 +68,6 @@ one_shot = true
 [node name="Path2D" type="Path2D" parent="."]
 curve = SubResource("Curve2D_m07jr")
 
-[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[node name="Health" type="Sprite2D" parent="."]
+position = Vector2(0, -13)
+texture = ExtResource("3_uhsnb")

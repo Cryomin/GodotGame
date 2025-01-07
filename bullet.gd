@@ -15,9 +15,9 @@ func _ready():
 
 func _process(delta: float) -> void:
 	position += Vector2.RIGHT.rotated(rotation) * speed * delta
-
-func _on_bullet_body_entered(body):
-	print("Hello")
 	
 func _on_body_entered(body: Node2D) -> void:
-	print(body)
+	if body is Enemy:
+		body as Enemy
+		body.enemdmg(1)
+	queue_free()

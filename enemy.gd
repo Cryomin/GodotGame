@@ -11,9 +11,6 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
-	if dead == true:
-		if $DeathTimer.is_stopped():
-			queue_free()
 	position.x = player.position.x
 	
 func enemdmg(dmg):
@@ -23,5 +20,8 @@ func enemdmg(dmg):
 
 	if enim_health <= 0:
 		$AnimationPlayer.play("death")
-		$DeathTimer.start()
-		dead = true
+
+
+func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+	if anim_name == "death":
+		queue_free()

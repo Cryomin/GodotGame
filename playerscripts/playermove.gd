@@ -1,5 +1,6 @@
 extends CharacterBody2D
 
+var dashvel
 var run_speed = 80.0
 var max_health = 10
 @onready var health = max_health
@@ -9,20 +10,32 @@ var look_direction
 var look_direction_deg
 signal healthsig(health)
 @export var speed = 300
-
+var dashing = false
 func get_input():
 	input_direction = Input.get_vector("left","right","up","down")
-	velocity = input_direction * speed
 	
 func dash():
-	velocity = input_direction * 10000
+	if dashing == false:
+		velocity = 2000 * input_direction
+		print(input_direction)
+		input_direction = Input.get_vector("left","right","up","down")
+		dashing = true
 	
 	
 func _physics_process(delta):
-	get_input()
 	if Input.is_action_just_pressed("dash"):
 		dash()
-	move_and_slide()
+	if dashing == true:
+		if velocity.length() <= 300:
+			dashing = false
+		move_and_slide()
+		velocity -= 100 * input_direction
+		print(velocity.length())
+		print(input_direction)
+	else:
+		get_input()
+		velocity = input_direction * speed
+		move_and_slide()
 
 func _process(_delta):
 	if Input.is_action_just_pressed("interact"):

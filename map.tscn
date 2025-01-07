@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=4 uid="uid://du6fsbi5koyg"]
+[gd_scene load_steps=17 format=4 uid="uid://du6fsbi5koyg"]
 
 [ext_resource type="PackedScene" uid="uid://j5tqtk322jv5" path="res://enemy.tscn" id="1_kg8h6"]
 [ext_resource type="Script" path="res://map.gd" id="1_nc3tm"]
@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://cqh3oi22k1454" path="res://player.tscn" id="2_eylx5"]
 [ext_resource type="Texture2D" uid="uid://bflnnmmisdusk" path="res://Tilemaps/TilesetForGame.png" id="3_7jyqx"]
 [ext_resource type="PackedScene" uid="uid://cfefbttuwo5d5" path="res://enemyspawner.tscn" id="5_obqy4"]
-[ext_resource type="PackedScene" uid="uid://2xbm0bt77nbh" path="res://scenes/bullet.tscn" id="5_r0ox2"]
 [ext_resource type="Script" path="res://pathfinding.gd" id="7_w1505"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_s1545"]
@@ -282,6 +281,44 @@ physics_layer_0/collision_layer = 3
 physics_layer_0/collision_mask = 3
 sources/0 = SubResource("TileSetAtlasSource_s1545")
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_vado0"]
+
+[sub_resource type="Animation" id="Animation_8buhq"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2i(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_luui7"]
+resource_name = "death"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.33, 0.66),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Vector2i(3, 7), Vector2i(4, 7), Vector2i(5, 7)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ot0a0"]
+_data = {
+"RESET": SubResource("Animation_8buhq"),
+"death": SubResource("Animation_luui7")
+}
+
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_y8j6f"]
 texture = ExtResource("3_7jyqx")
 0:0/0 = 0
@@ -364,24 +401,17 @@ sources/0 = SubResource("TileSetAtlasSource_y8j6f")
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_srdc8"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_4akst"]
-size = Vector2(191, 222)
-
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_nc3tm")
 
-[node name="Node2D2" parent="." instance=ExtResource("1_wlr0t")]
-z_index = 1
-position = Vector2(518, 1509)
+[node name="Area2DBullet" parent="." instance=ExtResource("1_wlr0t")]
+position = Vector2(450, 1514)
 
 [node name="Node2D" parent="." instance=ExtResource("2_eylx5")]
 top_level = true
 z_index = 1
 position = Vector2(0, -5.64)
 speed = 400
-
-[node name="Node2D" parent="Node2D" index="8"]
-bullet_scene = ExtResource("5_r0ox2")
 
 [node name="TileMapLayer2" type="TileMapLayer" parent="."]
 show_behind_parent = true
@@ -397,6 +427,14 @@ z_index = 1
 position = Vector2(612, -4)
 player = NodePath("../Node2D")
 
+[node name="CollisionShape2D" parent="Enemy" index="1"]
+shape = SubResource("CircleShape2D_vado0")
+
+[node name="AnimationPlayer" parent="Enemy" index="2"]
+libraries = {
+"": SubResource("AnimationLibrary_ot0a0")
+}
+
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 scale = Vector2(5, 5)
 tile_map_data = PackedByteArray("AAACAAAAAAADAAIAAAAAAP7/AAADAAIAAAD9////AAADAAIAAAAIAP3/AAADAAIAAAAJAAMAAAADAAIAAAADAAkAAAADAAIAAAAAAA4AAAADAAIAAAD1/wsAAAADAAIAAAD1/wIAAAADAAIAAADv////AAADAAIAAADu/wcAAAADAAIAAADy/xAAAAADAAIAAAAHABEAAAADAAIAAAD7/wcAAAADAAIAAAA=")
@@ -408,11 +446,6 @@ player = NodePath("../Node2D")
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 navigation_polygon = SubResource("NavigationPolygon_srdc8")
 
-[node name="Thing" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Thing"]
-position = Vector2(323, 275)
-shape = SubResource("RectangleShape2D_4akst")
-
 [editable path="Node2D"]
 [editable path="Node2D/Node2D"]
+[editable path="Enemy"]
